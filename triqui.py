@@ -1,4 +1,5 @@
 import random
+from copy import copy, deepcopy
 
 #Cambiar tecla por posicion en la matriz
 def getPos(key):
@@ -171,7 +172,6 @@ def getPlayerMove(board):
         while getPos(key) == None:
             key = input("Ingrese un número del 1 al 9 para realizar un movimiento: ")
 
-        print(getPos(key))
         if isSpaceFree(board, getPos(key)):
             return getPos(key)
         else:
@@ -211,41 +211,34 @@ def getComputerMove(board, computerLetter):
 
     playerLetter = {"X":"O", "O":"X"}
 
-    print("otra cosa")
     # 1. Verificar si la computadora puede ganar...
     for i in range(len(board)):
         for j in range(len(board[i])):
             if board[i][j] == " ":
-                board2 = []
-                board2 = board.copy()
+                board2 = deepcopy(board)
                 board2[i][j] = computerLetter
-                print(board2)
                 if isWinner(board2, computerLetter):
-                    print(i, j)
                     return [i, j]
 
     # 2. Si no, verificar si el usuario puede ganar en la siguiente jugada, si si, bloquear esta jugada...
     
-    print("algo")
     for i in range(len(board)):
         for j in range(len(board[i])):
             if board[i][j] == " ":
-                board2 = board.copy()
+                board2 = deepcopy(board)
                 board2[i][j] = playerLetter[computerLetter]
                 if isWinner(board2, playerLetter[computerLetter]):
                     return [i, j]
 
     # 3. Si no, tratar de poner una marca en alguna de las esquinas, si alguna está vacía...
-    move = chooseRandomMoveFromList([[0,0],[0,2],[2,2],[2,0]])
-    print(move)
+    move = chooseRandomMoveFromList(board, [[0,0],[0,2],[2,2],[2,0]])
     if move != None:
         return move
     # 4. Si no, tratar de marcar la casilla del centro, si esta está vacía...
     if board[1][1] == " ":
         return [1, 1]
     # 5. Si no, tratar de poner una marca en alguna de las casillas de los lados...
-    move = chooseRandomMoveFromList([[0,1],[1,2],[2,1],[1,0]])
-    print(move)
+    move = chooseRandomMoveFromList(board, [[0,1],[1,2],[2,1],[1,0]])
     if move != None:
         return move
     

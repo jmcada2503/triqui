@@ -8,7 +8,7 @@ while True:
 
     turn = tr.whoGoesFirst()  # Indica quién tiene el turno para jugar, el usuario o la computadora.
     # 2. Crear el tablero
-    board = [[" ", " ", " "],[" ", " ", " "],[" ", " ", " "]]
+    mainBoard = [[" ", " ", " "],[" ", " ", " "],[" ", " ", " "]]
     # 3. El usuario debe seleccionar la marca
     player = tr.inputPlayerLetter()
     # 4. Quién va primero el usuario o la computadora?
@@ -21,20 +21,22 @@ while True:
         if turn == 'Usuario': # 5. Turno del usuario
 
             # a. Mostrar tablero
-            tr.drawBoard(board)
+            tr.drawBoard(mainBoard)
             # b. Pedir jugada al usuario
-            move = tr.getPlayerMove(board)
+            move = tr.getPlayerMove(mainBoard)
             # c. Actualizar el tablero
-            board = tr.makeMove(board, player[0], move)
+            mainBoard = tr.makeMove(mainBoard, player[0], move)
             # d. Verificar si el usuario ha ganado el juego.
             #    Si si, mostrar tablero, mostrar mensaje de felicitación y terminar el juego.
-            if tr.isWinner(board, player[0]):
+            if tr.isWinner(mainBoard, player[0]):
                 print(f"{turn} ha ganado el juego")
+                tr.drawBoard(mainBoard)
                 break
 
             # e. Verificar si hay empate.
-            elif tr.isBoardFull(board):
+            elif tr.isBoardFull(mainBoard):
                 print("Hubo un empate. El juego ha terminado")
+                tr.drawBoard(mainBoard)
                 break
             #    Si si, mostrar tablero, mostar mensaje de empate y terminar el juego.
 
@@ -46,13 +48,13 @@ while True:
         else: # 6. Turno de la computadora.
 
             # a. Computadora hace jugada.
-            move = tr.getComputerMove(board, player[1])
+            move = tr.getComputerMove(mainBoard, player[1])
             # b. Actualizar el tablero.
-            board = tr.makeMove(board, player[1], move)
+            mainBoard = tr.makeMove(mainBoard, player[1], move)
 
             # c. Verificar si la computadora ha ganado el juego.
-            if tr.isWinner(board, player[1]):
-                tr.drawBoard(board)
+            if tr.isWinner(mainBoard, player[1]):
+                tr.drawBoard(mainBoard)
                 print(f"{turn} ha ganado el juego")
                 break
 
@@ -61,8 +63,9 @@ while True:
             # d. Verificar si hay empate.
             #    Si si, mostrar tablero, mostar mensaje de empate y terminar el juego.
             
-            elif tr.isBoardFull(board):
+            elif tr.isBoardFull(mainBoard):
                 print("Hubo un empate. El juego ha terminado")
+                tr.drawBoard(mainBoard)
                 break
 
             # f. Si la computadora no ha ganado y no hay empate, el usuario
